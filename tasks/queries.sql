@@ -32,8 +32,12 @@ Jó munkát!
 
     Elvárt eredmény:
         -1523
-*/
 
+
+*/
+1.
+SELECT `IndepYear`, MIN(country.IndepYear)
+FROM `country`;
 
 /*
 2. feladat (4 pont)
@@ -45,7 +49,10 @@ Jó munkát!
     Elvárt eredmény:
         CHN Code-ú ország (China)
 */
-
+2.
+SELECT *
+FROM country
+WHERE IndepYear = (SELECT MIN(IndepYear) FROM country);
 
 /*
 3. feladat (2 pont)
@@ -57,7 +64,11 @@ Jó munkát!
         ID szerint növekvő sorrendben az első 5 darab: 2, 3, 8, 11, 34
         ID szerint növekvő sorrendben az utolsó 3 darab: 4076, 4078, 4079
 */
-
+3.
+SELECT *
+FROM `city`
+WHERE city.Name = city.District
+ORDER BY ID;
 
 /*
 4. feladat (3 pont)
@@ -69,7 +80,10 @@ Jó munkát!
         7 rekord
         országnevek: Bangladesh, Bahrain, Kuwait, Mauritania, Qatar, Sudan, Sierra Leone
 */
-
+4.
+SELECT Name, HeadOfState
+FROM country
+WHERE HeadOfState LIKE '%Ahmad%' OR HeadOfState LIKE '%Ahmed%' OR HeadOfState LIKE '%Hamad%';
 
 /*
 5. feladat (3 pont)
@@ -81,7 +95,10 @@ Jó munkát!
         10 rekord
         kontinensek: Oceania (7 db), Europe (2), South America (1)
 */
-
+5.
+SELECT *
+FROM `country`
+WHERE `LifeExpectancy` IS NULL AND `Population`> 0;
 
 /*
 6. feladat (2 pont)
@@ -92,7 +109,10 @@ Jó munkát!
     Elvárt eredmény:
         63 rekord
 */
-
+6.
+SELECT country.Code, country.Name, country.GNP,country.GNPOld
+FROM `country`
+WHERE country.GNPOld > country.GNP;
 
 /*
 7. feladat (4 pont)
@@ -103,7 +123,12 @@ Jó munkát!
     Elvárt eredmény:
         29 rekord
 */
-
+7.
+SELECT *
+FROM `countrylanguage`
+WHERE `Language` LIKE '%ian'
+GROUP BY `Language`
+ORDER BY `Language`;
 
 /*
 8. feladat (4 pont)
@@ -116,7 +141,11 @@ Jó munkát!
         Western Europe: 9
         Eastern Europe 10
 */
-
+8.
+SELECT Region, COUNT(Name) AS orszagok
+FROM country
+WHERE Region LIKE '%Europe%'
+GROUP BY Region;
 
 /*
 9. feladat (5 pont)
@@ -130,7 +159,12 @@ Jó munkát!
         első országkód: AFG
         utolsó országkód: ZWE
 */
-
+9.
+SELECT Code,country.Name, city.Name
+FROM country
+LEFT JOIN city
+ON country.Capital = city.ID
+ORDER BY country.Name;
 
 /*
 10. feladat (3 pont)
@@ -141,7 +175,10 @@ Jó munkát!
         10 rekord
         a városok ID-ja: 61, 62, 1791, 2316, 2317, 2728, 2805, 2806, 3333, 3538
 */
-
+10.
+SELECT *
+FROM city
+WHERE Population LIKE '___';
 
 /*
 11. feladat (5 pont)
@@ -154,7 +191,13 @@ Jó munkát!
         35 rekord
         országkódok, amelyek szerepelnek a listában: DNK, FIN, FRO, ISL, NOR, SJM, SWE
 */
-
+11.
+SELECT city.ID,city.Name,city.CountryCode,city.District,city.Population
+FROM `city`
+INNER JOIN country
+ON city.CountryCode = country.Code
+WHERE country.Region LIKE '%Nordic Countries%'
+ORDER BY country.Code, city.Population DESC;
 
 /*
 12. feladat (5 pont)
@@ -169,7 +212,12 @@ Jó munkát!
         legkisebb: Northern Africa (1)
         legnagyobb: Caribbean (11)
 */
-
+12.
+SELECT Region,COUNT(Region)
+FROM country
+WHERE IndepYear IS NULL OR IndepYear < 1500
+GROUP BY Region
+ORDER BY COUNT(Region) DESC;
 
 /*
 13. feladat (6 pont)
@@ -180,7 +228,12 @@ Jó munkát!
         16 rekord
         országkódok: ABW, ANT, BHR, BRN, COK, DNK, ISL, JPN, KWT, MAC, MCO, MDV, MYS, NOR, PRI, TTO
 */
-
+13.
+SELECT *
+FROM country
+Inner JOIN countrylanguage
+ON country.Code=countrylanguage.CountryCode
+WHERE IsOfficial = 'F' and Language Like 'English';
 
 /*
 14. feladat (6 pont)
@@ -191,7 +244,12 @@ Jó munkát!
         7 rekord
         országkódok: ATA, ATF, BVT, HMD, IOT, SGS, UMI
 */
-
+14.
+SELECT *
+FROM `country`
+LEFT JOIN city
+ON city.CountryCode = country.Code
+WHERE city.Name IS NULL;
 
 /*
 15. feladat (6 pont)
@@ -202,7 +260,12 @@ Jó munkát!
     Elvárt eredmény:
         65 rekord
 */
-
+15.
+SELECT country.Name, country.Continent,country.Region,countrylanguage.Language, `Percentage`
+FROM `countrylanguage`
+INNER JOIN country
+ON countrylanguage.CountryCode = country.Code
+WHERE `Percentage` = 0;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
